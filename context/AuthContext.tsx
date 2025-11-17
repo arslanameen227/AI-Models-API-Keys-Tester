@@ -1,15 +1,21 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { apiService } from '../services/apiService';
+import { User } from '../types';
 
 interface AuthContextType {
   isLoggedIn: boolean;
+  user: User | null;
+  token: string | null;
   isLoading: boolean;
   error: string | null;
-  login: (user: string, pass: string) => Promise<boolean>;
+  login: (username: string, pass: string) => Promise<boolean>;
   logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
+  user: null,
+  token: null,
   isLoading: false,
   error: null,
   login: async () => false,
@@ -17,45 +23,55 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('authToken'));
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedAuth = localStorage.getItem('isLoggedIn');
-    if (storedAuth === 'true') {
-      setIsLoggedIn(true);
-    }
-  }, []);
+    const validateToken = async () => {
+      if (token) {
+        try {
+          // You might have a `/api/me` endpoint to get user data from a token
+          const userData = await apiService.getMe(); 
+          setUser(userData);
+        } catch (e) {
+          console.error("Token validation failed", e);
+          setToken(null);
+          localStorage.removeItem('authToken');
+        }
+      }
+      setIsLoading(false);
+    };
+    validateToken();
+  }, [token]);
 
-  const login = (user: string, pass: string): Promise<boolean> => {
+  const login = async (username: string, pass: string): Promise<boolean> => {
     setIsLoading(true);
     setError(null);
-    return new Promise(resolve => {
-        setTimeout(() => {
-            // Mock authentication
-            if (user === 'admin' && pass === 'password') {
-                localStorage.setItem('isLoggedIn', 'true');
-                setIsLoggedIn(true);
-                setIsLoading(false);
-                resolve(true);
-            } else {
-                setError('Invalid username or password.');
-                setIsLoading(false);
-                resolve(false);
-            }
-        }, 500);
-    });
+    try {
+      const { token: newToken, user: newUser } = await apiService.login(username, pass);
+      localStorage.setItem('authToken', newToken);
+      setToken(newToken);
+      setUser(newUser);
+      setIsLoading(false);
+      return true;
+    } catch (e: any) {
+        setError(e.message || 'An error occurred during login.');
+        setIsLoading(false);
+        return false;
+    }
   };
 
   const logout = () => {
-    localStorage.removeItem('isLoggedIn');
-    setIsLoggedIn(false);
+    localStorage.removeItem('authToken');
+    setToken(null);
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, isLoading, error, login, logout }}>
-      {children}
+    <AuthContext.Provider value={{ isLoggedIn: !!token, user, token, isLoading, error, login, logout }}>
+      {!isLoading && children}
     </AuthContext.Provider>
   );
 };

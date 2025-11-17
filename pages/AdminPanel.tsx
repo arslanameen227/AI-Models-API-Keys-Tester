@@ -6,19 +6,24 @@ import SiteSettingsManager from '../components/SiteSettingsManager';
 import BlogManager from '../components/BlogManager';
 import PageManager from '../components/PageManager';
 import FileManager from '../components/FileManager';
+import ThemeManager from '../components/ThemeManager';
+import UserManager from '../components/UserManager';
+import MenuManager from '../components/MenuManager';
+import PluginManager from '../components/PluginManager';
+import Analytics from './Analytics';
 
-type AdminTab = 'models' | 'settings' | 'blog' | 'pages' | 'files';
+type AdminTab = 'analytics' | 'blog' | 'pages' | 'files' | 'menu' | 'plugins' | 'themes' | 'users' | 'models' | 'settings';
 
 const AdminPanel: React.FC = () => {
   const { isLoggedIn } = useContext(AuthContext);
-  const [activeTab, setActiveTab] = useState<AdminTab>('blog');
+  const [activeTab, setActiveTab] = useState<AdminTab>('analytics');
 
   if (!isLoggedIn) {
     return (
-      <div className="bg-base-200-light dark:bg-base-200-dark p-8 rounded-xl shadow-2xl border border-base-300-light dark:border-base-300-dark text-center text-warning flex flex-col items-center gap-4 animate-fade-in">
+      <div className="bg-base-200 p-8 rounded-xl shadow-2xl border border-base-300 text-center text-warning flex flex-col items-center gap-4 animate-fade-in">
         <ShieldOff className="h-12 w-12" />
         <h2 className="text-2xl font-bold">Access Denied</h2>
-        <p className="text-gray-500 dark:text-gray-400">You must be logged in as an administrator to view this page.</p>
+        <p className="text-gray-500">You must be logged in as an administrator to view this page.</p>
       </div>
     );
   }
@@ -28,8 +33,8 @@ const AdminPanel: React.FC = () => {
         onClick={() => setActiveTab(tabId)}
         className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
           activeTab === tabId
-            ? 'border-brand-primary-light dark:border-brand-primary-dark text-brand-primary-light dark:text-brand-primary-dark'
-            : 'border-transparent text-gray-500 hover:text-gray-800 dark:hover:text-white hover:border-gray-400 dark:hover:border-gray-500'
+            ? 'border-brand-primary text-brand-primary'
+            : 'border-transparent text-gray-500 hover:text-base-content hover:border-gray-400'
         }`}
       >
         {label}
@@ -37,23 +42,33 @@ const AdminPanel: React.FC = () => {
   );
 
   return (
-    <div className="bg-base-100-light dark:bg-base-200-dark p-4 sm:p-6 rounded-xl shadow-2xl border border-base-300-light dark:border-base-300-dark animate-fade-in max-w-6xl mx-auto">
+    <div className="bg-base-100 p-4 sm:p-6 rounded-xl shadow-2xl border border-base-300 animate-fade-in max-w-7xl mx-auto">
       <h2 className="text-3xl font-bold mb-6">Admin Panel</h2>
       
-      <div className="border-b border-base-300-light dark:border-base-300-dark mb-6">
+      <div className="border-b border-base-300 mb-6">
         <nav className="-mb-px flex space-x-4 sm:space-x-6 overflow-x-auto">
+          <TabButton tabId="analytics" label="Analytics" />
           <TabButton tabId="blog" label="Blog Posts" />
           <TabButton tabId="pages" label="Pages" />
           <TabButton tabId="files" label="File Manager" />
+          <TabButton tabId="menu" label="Menu" />
+          <TabButton tabId="plugins" label="Plugins" />
+          <TabButton tabId="themes" label="Themes" />
+          <TabButton tabId="users" label="Users" />
           <TabButton tabId="models" label="AI Providers" />
           <TabButton tabId="settings" label="Site Settings" />
         </nav>
       </div>
       
-      <div>
+      <div className="min-h-[400px]">
+        {activeTab === 'analytics' && <Analytics />}
         {activeTab === 'blog' && <BlogManager />}
         {activeTab === 'pages' && <PageManager />}
         {activeTab === 'files' && <FileManager />}
+        {activeTab === 'menu' && <MenuManager />}
+        {activeTab === 'plugins' && <PluginManager />}
+        {activeTab === 'themes' && <ThemeManager />}
+        {activeTab === 'users' && <UserManager />}
         {activeTab === 'models' && <ModelManager />}
         {activeTab === 'settings' && <SiteSettingsManager />}
       </div>

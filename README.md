@@ -1,75 +1,68 @@
-# AI Website Framework
+# AI Website Framework 3.0: Backend-Powered Edition
 
 [![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-blue?logo=tailwindcss)](https://tailwindcss.com/)
+[![Symfony](https://img.shields.io/badge/Symfony-Backend-black?logo=symfony)](https://symfony.com/)
 
-An all-in-one, AI-powered framework for building, managing, and optimizing modern websites. This platform combines a powerful suite of generative AI tools with a full-featured Content Management System (CMS), enabling users to create dynamic pages, write blog posts, manage files, and automate SEO with unprecedented ease. The entire backend is powered by a flexible AI service layer, defaulting to **Pollinations AI**.
+An all-in-one, enterprise-grade AI framework for building, managing, and optimizing modern websites, now architected to connect to a real backend (e.g., Symfony). This platform features a robust API-driven data layer, a dynamic theming system, full content management, and a powerful plugin system for ultimate extensibility.
 
-## ✨ Features
+## ✨ Core Features
 
-This framework is a comprehensive solution for web creation and management:
-
-*   **Full CMS**: A central, password-protected Admin Panel (`admin`/`password`) is the heart of your website.
-*   **AI-Powered Blog Engine**:
-    *   Create, edit, and manage blog posts with a rich text editor.
-    *   **One-Click Content Creation**: Use AI to generate entire articles, catchy titles, or concise summaries.
-    *   A public-facing blog page automatically lists all published articles.
-*   **Dynamic Page Builder**:
-    *   Build and manage custom pages (e.g., "About Us", "Contact").
-    *   Published pages are automatically added to the main site navigation.
-*   **Automatic SEO**:
-    *   Each page and post includes a dedicated SEO panel.
-    *   Use AI to **generate optimized meta titles and descriptions** to boost search engine rankings.
-*   **File Manager**: A central hub to view and manage all your site's media assets.
-*   **Light/Dark Mode**: A sleek theme toggle allows users to choose their preferred viewing experience.
-*   **Extensible AI Tools**: Includes the original suite of standalone tools like the Prompt Playground, Image Generator, Translator, and more.
-*   **Dynamic Navigation**: The sidebar automatically updates to include links to all your newly published pages.
-*   **Modern UI/UX**: A clean, responsive interface enhanced with smooth animations and transitions.
+*   **Real Backend Integration**: The frontend is now a pure client application that communicates with a backend via a RESTful API. The entire data layer has been re-engineered to be asynchronous and persistent.
+*   **Token-Based Authentication**: Secure JWT-based authentication flow. The frontend sends credentials, receives a token, and uses it for all authenticated requests.
+*   **Complete Plugin System**:
+    *   **Admin UI**: Install, uninstall, activate, and deactivate plugins directly from the Admin Panel.
+    *   **Dynamic Functionality**: The frontend is **plugin-aware**. Active plugins can dynamically add new tools to the sidebar, create new pages, and extend the framework's capabilities without requiring frontend code changes.
+*   **Full CMS**: A central, password-protected Admin Panel for all website management.
+    *   **Full CRUD**: Create, Read, Update, and Delete blog posts and custom pages through a rich modal editor.
+    *   **AI-Powered Content**: Generate entire articles, SEO metadata, and summaries with a single click by leveraging the backend's connection to AI providers.
+*   **Dynamic Theming & Navigation**:
+    *   Themes, colors, and navigation menus are now fetched from the backend, allowing them to be managed dynamically.
+*   **Extensible AI Tools**: Includes a suite of standalone tools like the Prompt Playground, Image Generator, and more, all powered by API calls to the backend.
 
 ## 🚀 How It Works
 
-### Integrated Content & AI
-The framework operates on a unified data model managed through React Context. All content—blog posts, pages, files, and settings—is stored and accessed from a central `SettingsContext`, making the application fast and self-contained.
+### Client-Server Architecture
+This project is now the **frontend** part of a client-server application. It is designed to work with any backend that exposes a compatible REST API. All data—from posts and pages to users and plugin states—is fetched from and persisted to the backend via the centralized `apiService`.
 
-### AI-Assisted Workflow
-Generative AI is deeply integrated into the content creation process. When an admin creates a new blog post or page, they have access to buttons that call the `aiService`. This service sends tailored prompts to the configured AI provider (e.g., Pollinations AI) to generate high-quality text for titles, content, or SEO metadata, which is then populated directly into the CMS fields.
+### Plugin System
+The framework's extensibility comes from its plugin system. The backend provides an endpoint (`/api/plugins`) that lists available plugins and their states. When a plugin is active, the backend's API response includes metadata about the features it provides (e.g., a new tool for the sidebar). The React frontend reads this metadata and dynamically renders the new functionality in the UI, making the application incredibly modular.
 
-### Session-Based API Key
-Security is paramount. To power the AI features, a user must first validate a key in the **API Key Verifier**. This key is stored for the **current session only** and is never persisted, ensuring user privacy.
+### API-Based AI Integration
+Instead of the frontend making direct calls to AI providers, it now sends requests to the backend (e.g., `/api/ai/generate-text`). The backend is responsible for securely managing AI provider API keys and communicating with the AI services. This is a more secure and scalable architecture.
 
-## 🛠️ Technology Stack
+## 🛠️ Technology Stack & Requirements
 
-*   **Frontend**: [React](https://react.dev/) 19 (using hooks and context for state management)
-*   **Language**: [TypeScript](https://www.typescriptlang.org/)
-*   **Styling**: [Tailwind CSS](https://tailwindcss.com/) with a custom theme supporting light/dark modes.
-*   **Icons**: [Lucide React](https://lucide.dev/) for a clean and consistent icon set.
-*   **API Communication**: Native `fetch` API.
-*   **State Management**: React Context API for a self-contained, serverless architecture.
+*   **Frontend**: [React](https://react.dev/) 19, [TypeScript](https://www.typescriptlang.org/), [Tailwind CSS](https://tailwindcss.com/)
+*   **State Management**: React Context API
+*   **Backend (Required)**: A backend server that provides a compatible REST API. This could be built with [Symfony](https://symfony.com/), Laravel, Node.js, or any other framework.
+
+### Required API Endpoints
+Your backend must expose endpoints for authentication, data management, and the plugin system. Examples:
+*   `POST /api/login_check` (for authentication)
+*   `GET /api/settings`, `GET /api/posts`, `POST /api/posts`, `PUT /api/posts/{id}`
+*   `GET /api/plugins`, `POST /api/plugins/{id}/install`, `POST /api/plugins/{id}/activate`
+*   `POST /api/ai/generate-text`
 
 ## 📦 Getting Started
 
-This project is a static web application and does not require a build step or a complex server setup.
+1.  **Set up your backend server**: Ensure your Symfony (or other) backend is running and exposing the required API endpoints.
+2.  **Configure API Base URL**: In `/src/services/apiService.ts`, update the `API_BASE_URL` to point to your backend server.
+3.  **Serve the frontend**:
+    *   Use any simple static file server (e.g., `npx serve .`).
+    *   Navigate to the provided URL (e.g., `http://localhost:3000`).
 
-### Running the Application
-
-1.  **Serve the files:** Use any simple static file server.
-    *   With Node.js: `npx serve .`
-    *   With Python: `python -m http.server`
-
-2.  **Open the application:** Navigate to the URL provided by your server (e.g., `http://localhost:3000`).
+4.  **Login**: Access the Admin Panel with credentials managed by your backend's user system.
 
 ## 🔧 Customization & Extensibility
 
-### Adding a New Tool
-1.  Create a new tool component in the `/pages` directory.
-2.  Import the component and a [Lucide icon](https://lucide.dev/icons/) into `/data/tools.ts`.
-3.  Add a new `Tool` object to the `tools` array. The sidebar will update automatically.
+### Creating a Plugin
+1.  **Backend**: Create the plugin logic in your Symfony backend, including any new API endpoints it requires.
+2.  **Register the Plugin**: Add the plugin to the list returned by your `/api/plugins` endpoint.
+3.  **Define Features**: In the plugin's metadata from the API, specify the features it adds (e.g., `addsTool`, `addsAdminTab`). The frontend will automatically detect and render them.
 
-### Configuring AI Providers
-1.  Log in to the **Admin Panel** (default: `admin` / `password`).
-2.  Go to **Model Management** to add, edit, or remove AI providers.
-3.  To change the core AI logic, modify the functions in `services/aiService.ts` to connect to your desired provider's API.
+### Changing AI Providers
+All AI provider logic and key management should now be handled exclusively on the **backend**. The frontend simply makes requests to your backend's AI endpoints.
 
 ## 📄 License
 

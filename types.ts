@@ -56,14 +56,74 @@ export interface FileObject {
   uploadedDate: string;
 }
 
+export interface User {
+  id: string;
+  username: string;
+  // passwordHash is backend-only now
+  role: 'admin' | 'editor';
+}
+
+export interface Theme {
+  id: string;
+  name: string;
+  colors: {
+    light: { [key: string]: string };
+    dark: { [key: string]: string };
+  };
+}
+
+export interface MenuItem {
+    id: string; // Corresponds to tool id or page slug
+    name: string;
+    type: 'tool' | 'page' | 'blog-index';
+    isVisible: boolean;
+    order: number;
+}
+
+export interface AnalyticsData {
+  pageViews: { date: string; count: number }[];
+  uniqueVisitors: { date: string; count: number }[];
+}
+
 export interface SiteSettings {
     siteTitle: string;
     siteDescription: string;
+    activeThemeId: string;
+}
+
+// Represents a feature a plugin can add
+export interface PluginTool {
+    id: string;
+    name: string;
+    description: string;
+    iconName: string; // e.g., 'ShieldCheck'
+    componentId: string; // Maps to a pre-defined component in the frontend
+}
+
+export interface Plugin {
+    id: string;
+    name: string;
+    description: string;
+    version: string;
+    author: string;
+    isInstalled: boolean;
+    isActive: boolean;
+    addsTool?: PluginTool; // Describes a tool to add to the sidebar
+}
+
+export interface Database {
+    settings: SiteSettings;
     providers: Provider[];
     blogPosts: BlogPost[];
     pages: Page[];
     files: FileObject[];
+    users: User[];
+    themes: Theme[];
+    menuItems: MenuItem[];
+    analytics: AnalyticsData;
+    plugins: Plugin[];
 }
+
 
 export interface Tool {
   id: string;

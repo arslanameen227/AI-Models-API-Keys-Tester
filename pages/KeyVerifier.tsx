@@ -7,9 +7,9 @@ import { AiServiceContext } from '../context/AiServiceContext';
 
 
 const KeyVerifier: React.FC = () => {
-  const { settings } = useContext(SettingsContext);
+  // Fix: Destructure `providers` directly from context, not from `settings`.
+  const { providers } = useContext(SettingsContext);
   const { setApiKey: setActiveApiKey } = useContext(AiServiceContext);
-  const { providers } = settings;
 
   const [selectedProvider, setSelectedProvider] = useState<Provider | undefined>(providers[0]);
   const [apiKey, setApiKey] = useState('');

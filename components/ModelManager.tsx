@@ -5,7 +5,9 @@ import { Plus, Trash2, Edit, AlertTriangle } from 'lucide-react';
 import ProviderEditModal from './ProviderEditModal';
 
 const ModelManager: React.FC = () => {
-  const { settings, updateSettings } = useContext(SettingsContext);
+  // Fix: Destructure `providers` and `updateProviders` directly from context.
+  // They are not properties of the `settings` object.
+  const { providers, updateProviders } = useContext(SettingsContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProvider, setEditingProvider] = useState<Provider | null>(null);
 
@@ -22,18 +24,18 @@ const ModelManager: React.FC = () => {
   const handleSaveProvider = (providerToSave: Provider) => {
     let updatedProviders;
     if (editingProvider) { // Editing existing
-        updatedProviders = settings.providers.map(p => p.id === providerToSave.id ? providerToSave : p);
+        updatedProviders = providers.map(p => p.id === providerToSave.id ? providerToSave : p);
     } else { // Adding new
-        updatedProviders = [...settings.providers, providerToSave];
+        updatedProviders = [...providers, providerToSave];
     }
-    updateSettings({ ...settings, providers: updatedProviders });
+    updateProviders(updatedProviders);
     setIsModalOpen(false);
   };
 
   const handleRemoveProvider = (id: string) => {
     if (window.confirm('Are you sure you want to remove this provider? This action cannot be undone.')) {
-        const updatedProviders = settings.providers.filter(p => p.id !== id);
-        updateSettings({ ...settings, providers: updatedProviders });
+        const updatedProviders = providers.filter(p => p.id !== id);
+        updateProviders(updatedProviders);
     }
   };
 
@@ -51,8 +53,8 @@ const ModelManager: React.FC = () => {
       </div>
 
       <div className="space-y-3">
-        {settings.providers.length > 0 ? (
-            settings.providers.map(provider => (
+        {providers.length > 0 ? (
+            providers.map(provider => (
             <div key={provider.id} className="bg-base-300 p-4 rounded-lg flex items-center justify-between hover:bg-gray-700 transition-colors group">
                 <div className="flex items-center gap-4">
                     <img src={provider.logo} alt={provider.name} className="h-8 w-8 object-contain bg-white rounded-full p-1" />
@@ -90,7 +92,7 @@ const ModelManager: React.FC = () => {
             provider={editingProvider}
             onSave={handleSaveProvider}
             onClose={() => setIsModalOpen(false)}
-            existingIds={settings.providers.map(p => p.id)}
+            existingIds={providers.map(p => p.id)}
         />
       )}
     </div>

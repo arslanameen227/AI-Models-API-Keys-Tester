@@ -3,10 +3,11 @@ import { SettingsContext } from '../context/SettingsContext';
 import { Calendar, User } from 'lucide-react';
 
 const BlogIndex: React.FC = () => {
-  const { settings } = useContext(SettingsContext);
+  // Fix: Destructure `blogPosts` directly from context, not from `settings`.
+  const { blogPosts } = useContext(SettingsContext);
   
   // In a real app, you might want pagination. For now, just show published posts.
-  const publishedPosts = settings.blogPosts
+  const publishedPosts = blogPosts
     .filter(post => post.status === 'published')
     .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
 

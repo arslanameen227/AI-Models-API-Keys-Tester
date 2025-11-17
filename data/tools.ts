@@ -12,8 +12,7 @@ import {
   Tags,
   LayoutDashboard,
   Bot,
-  Rss,
-  Folder
+  Rss
 } from 'lucide-react';
 
 import KeyVerifier from '../pages/KeyVerifier';
@@ -30,7 +29,6 @@ import ContentRewriter from '../pages/ContentRewriter';
 import SentimentAnalysis from '../pages/SentimentAnalysis';
 import KeywordExtractor from '../pages/KeywordExtractor';
 import BlogIndex from '../pages/BlogIndex';
-import FileManager from '../components/FileManager'; // Note: Using component directly as a page
 
 
 export const tools: Tool[] = [
