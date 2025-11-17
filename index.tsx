@@ -4,6 +4,7 @@ import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { AiServiceProvider } from './context/AiServiceContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -16,7 +17,9 @@ root.render(
     <AuthProvider>
       <SettingsProvider>
         <AiServiceProvider>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </AiServiceProvider>
       </SettingsProvider>
     </AuthProvider>

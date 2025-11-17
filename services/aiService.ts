@@ -101,3 +101,27 @@ export const generateJson = async (apiKey: string, prompt: string) => {
       return { success: false, error: error.message || "Failed to generate JSON." };
     }
 };
+
+// --- Blog & Content Generation ---
+export const generateBlogPost = async (apiKey: string, topic: string) => {
+    const prompt = `Write a compelling and well-structured blog post about "${topic}". The post should have a clear introduction, several body paragraphs, and a concluding summary. Use Markdown for formatting, including headings and lists where appropriate.`;
+    return generateText(apiKey, prompt, "You are a professional blog writer known for creating engaging and informative content.");
+};
+
+// --- SEO Generation ---
+export const generateSeoMeta = async (apiKey: string, content: string) => {
+    const prompt = `Based on the following content, generate a concise and effective meta title (under 60 characters) and meta description (under 160 characters). Return the result as a JSON object with two keys: "title" and "description".\n\nContent:\n---\n${content.substring(0, 1000)}...`;
+    const response = await generateText(apiKey, prompt, "You are an SEO expert specializing in metadata optimization.");
+    if (response.success && response.text) {
+        try {
+            const parsed = JSON.parse(response.text);
+            if (parsed.title && parsed.description) {
+                return { success: true, data: parsed };
+            }
+        } catch (e) {
+            console.error("Failed to parse SEO meta JSON:", e);
+            return { success: false, error: "AI returned invalid JSON for SEO meta." };
+        }
+    }
+    return { success: false, error: response.error || "Failed to generate SEO meta." };
+};

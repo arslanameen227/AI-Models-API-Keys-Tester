@@ -2,13 +2,13 @@ import React from 'react';
 
 export interface Provider {
   id: string;
-  name: string;
+  name:string;
   logo: string;
   placeholder: string;
-  prefix?: string; // Used for mock validation
-  validationUrl?: string; // URL for real API validation
-  authHeader?: string; // e.g., 'Authorization' or 'X-Api-Key'
-  authScheme?: string; // e.g., 'Bearer'
+  prefix?: string;
+  validationUrl?: string;
+  authHeader?: string;
+  authScheme?: string;
 }
 
 export enum TestStatus {
@@ -23,10 +23,46 @@ export interface TestResult {
   error?: string;
 }
 
+export interface SeoMeta {
+  title: string;
+  description: string;
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  content: string; // Markdown content
+  author: string;
+  publishedDate: string; // ISO 8601 format
+  status: 'draft' | 'published';
+  seo: SeoMeta;
+}
+
+export interface Page {
+  id: string;
+  slug: string;
+  title: string;
+  content: string; // Markdown content
+  status: 'draft' | 'published';
+  seo: SeoMeta;
+}
+
+export interface FileObject {
+  id: string;
+  name: string;
+  url: string;
+  type: 'image' | 'video' | 'document';
+  uploadedDate: string;
+}
+
 export interface SiteSettings {
     siteTitle: string;
     siteDescription: string;
     providers: Provider[];
+    blogPosts: BlogPost[];
+    pages: Page[];
+    files: FileObject[];
 }
 
 export interface Tool {

@@ -11,7 +11,9 @@ import {
   Smile,
   Tags,
   LayoutDashboard,
-  Bot
+  Bot,
+  Rss,
+  Folder
 } from 'lucide-react';
 
 import KeyVerifier from '../pages/KeyVerifier';
@@ -27,6 +29,8 @@ import CodeGenerator from '../pages/CodeGenerator';
 import ContentRewriter from '../pages/ContentRewriter';
 import SentimentAnalysis from '../pages/SentimentAnalysis';
 import KeywordExtractor from '../pages/KeywordExtractor';
+import BlogIndex from '../pages/BlogIndex';
+import FileManager from '../components/FileManager'; // Note: Using component directly as a page
 
 
 export const tools: Tool[] = [
@@ -35,7 +39,14 @@ export const tools: Tool[] = [
     name: 'Dashboard',
     icon: LayoutDashboard,
     component: Dashboard,
-    description: 'Welcome to the AI Toolkit.',
+    description: 'Welcome to the AI Framework.',
+  },
+  {
+    id: 'blog',
+    name: 'Blog',
+    icon: Rss,
+    component: BlogIndex,
+    description: 'Read our latest articles and updates.',
   },
   {
     id: 'key-verifier',

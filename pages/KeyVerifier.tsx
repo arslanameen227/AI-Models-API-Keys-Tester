@@ -67,17 +67,17 @@ const KeyVerifier: React.FC = () => {
     switch (testStatus) {
       case TestStatus.TESTING:
         icon = <Loader className="animate-spin h-6 w-6" />;
-        colorClass = 'bg-blue-900/50 border-blue-500';
-        textColorClass = 'text-blue-300';
+        colorClass = 'bg-blue-500/10 border-blue-500';
+        textColorClass = 'text-blue-500 dark:text-blue-400';
         break;
       case TestStatus.SUCCESS:
         icon = <CheckCircle className="h-6 w-6" />;
-        colorClass = 'bg-green-900/50 border-success';
+        colorClass = 'bg-green-500/10 border-success';
         textColorClass = 'text-success';
         break;
       case TestStatus.ERROR:
         icon = <XCircle className="h-6 w-6" />;
-        colorClass = 'bg-red-900/50 border-error';
+        colorClass = 'bg-red-500/10 border-error';
         textColorClass = 'text-error';
         break;
       default:
@@ -94,9 +94,9 @@ const KeyVerifier: React.FC = () => {
   
   const PageHeader = () => (
     <div className="text-center mb-8">
-      <h1 className="text-4xl font-bold text-white">API Key Verifier</h1>
-      <p className="text-gray-400 mt-2 max-w-2xl mx-auto">
-        Select a provider and enter your key to validate it. A valid key (e.g., from Pollinations AI) will activate the other AI tools.
+      <h1 className="text-4xl font-bold">API Key Verifier</h1>
+      <p className="text-gray-500 dark:text-gray-400 mt-2 max-w-2xl mx-auto">
+        A valid key is required to power the AI tools and content generators (e.g., for the blog and pages).
       </p>
     </div>
   );
@@ -106,15 +106,15 @@ const KeyVerifier: React.FC = () => {
       <PageHeader />
       
       {!providers || providers.length === 0 ? (
-         <div className="bg-base-200 p-8 rounded-xl shadow-2xl border border-base-300 text-center">
+         <div className="bg-base-200-light dark:bg-base-200-dark p-8 rounded-xl shadow-2xl border border-base-300-light dark:border-base-300-dark text-center">
             <h2 className="text-2xl font-bold text-warning">No AI Providers Configured</h2>
-            <p className="mt-4 text-gray-400">Please ask an administrator to add AI providers in the admin panel.</p>
+            <p className="mt-4 text-gray-500 dark:text-gray-400">Please ask an administrator to add AI providers in the admin panel.</p>
         </div>
       ) : (
-        <div className="bg-base-200 p-6 sm:p-8 rounded-xl shadow-2xl border border-base-300">
+        <div className="bg-base-200-light dark:bg-base-200-dark p-6 sm:p-8 rounded-xl shadow-2xl border border-base-300-light dark:border-base-300-dark">
           <div className="space-y-6">
             <div>
-              <label htmlFor="provider-select" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="provider-select" className="block text-sm font-medium text-gray-500 dark:text-gray-300 mb-2">
                 AI Provider
               </label>
               <div className="relative">
@@ -125,7 +125,7 @@ const KeyVerifier: React.FC = () => {
                   id="provider-select"
                   value={selectedProvider?.id || ''}
                   onChange={(e) => handleProviderChange(e.target.value)}
-                  className="w-full pl-12 pr-10 py-3 bg-base-300 border border-gray-500 rounded-md appearance-none focus:ring-2 focus:ring-brand-secondary focus:border-brand-secondary"
+                  className="w-full pl-12 pr-10 py-3 bg-base-300-light dark:bg-base-300-dark border border-gray-300 dark:border-gray-500 rounded-md appearance-none focus:ring-2 focus:ring-brand-secondary-light dark:focus:ring-brand-secondary-dark"
                 >
                   {providers.map((provider) => (
                     <option key={provider.id} value={provider.id}>
@@ -141,7 +141,7 @@ const KeyVerifier: React.FC = () => {
 
             {selectedProvider && (
               <div>
-                <label htmlFor="api-key-input" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="api-key-input" className="block text-sm font-medium text-gray-500 dark:text-gray-300 mb-2">
                   API Key
                 </label>
                 <div className="relative">
@@ -157,7 +157,7 @@ const KeyVerifier: React.FC = () => {
                       setTestStatus(TestStatus.IDLE);
                     }}
                     placeholder={selectedProvider.placeholder}
-                    className="w-full pl-10 pr-4 py-3 bg-base-300 border border-gray-500 rounded-md focus:ring-2 focus:ring-brand-secondary focus:border-brand-secondary"
+                    className="w-full pl-10 pr-4 py-3 bg-base-300-light dark:bg-base-300-dark border border-gray-300 dark:border-gray-500 rounded-md focus:ring-2 focus:ring-brand-secondary-light dark:focus:ring-brand-secondary-dark"
                   />
                 </div>
               </div>
@@ -166,7 +166,7 @@ const KeyVerifier: React.FC = () => {
             <button
               onClick={handleTestKey}
               disabled={testStatus === TestStatus.TESTING || !selectedProvider}
-              className="w-full flex justify-center items-center py-3 px-4 bg-brand-primary text-white font-semibold rounded-md shadow-lg hover:bg-brand-secondary transition-all duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed transform hover:scale-105"
+              className="w-full flex justify-center items-center py-3 px-4 bg-brand-primary-light dark:bg-brand-primary-dark text-white font-semibold rounded-md shadow-lg hover:opacity-90 transition-all duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed transform hover:scale-105"
             >
               {testStatus === TestStatus.TESTING ? (
                 <>

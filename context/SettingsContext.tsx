@@ -16,7 +16,12 @@ export const SettingsProvider: React.FC<{children: React.ReactNode}> = ({ childr
   const [settings, setSettings] = useState<SiteSettings>(() => {
     try {
       const storedSettings = localStorage.getItem('siteSettings');
-      return storedSettings ? JSON.parse(storedSettings) : initialSettings;
+      if (storedSettings) {
+        const parsed = JSON.parse(storedSettings);
+        // Ensure all keys from initialSettings exist to prevent app crashes on data structure updates
+        return { ...initialSettings, ...parsed };
+      }
+      return initialSettings;
     } catch (error) {
       console.error("Failed to parse settings from localStorage", error);
       return initialSettings;
@@ -33,7 +38,8 @@ export const SettingsProvider: React.FC<{children: React.ReactNode}> = ({ childr
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === 'siteSettings' && event.newValue) {
         try {
-          setSettings(JSON.parse(event.newValue));
+          const parsed = JSON.parse(event.newValue);
+          setSettings({ ...initialSettings, ...parsed });
         } catch (error) {
             console.error("Failed to parse settings from storage event", error);
         }

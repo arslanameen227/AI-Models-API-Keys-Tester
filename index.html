@@ -7,18 +7,28 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class', // Enable dark mode support
         theme: {
           extend: {
             colors: {
-              'brand-primary': '#1e40af', // blue-800
-              'brand-secondary': '#3b82f6', // blue-500
-              'base-100': '#111827', // gray-900
-              'base-200': '#1f2937', // gray-800
-              'base-300': '#374151', // gray-700
-              'base-content': '#d1d5db', // gray-300
-              'success': '#10b981', // emerald-500
-              'error': '#ef4444', // red-500
-              'warning': '#f59e0b', // amber-500
+              // Light Mode Colors
+              'brand-primary-light': '#2563eb',
+              'brand-secondary-light': '#3b82f6',
+              'base-100-light': '#ffffff',
+              'base-200-light': '#f3f4f6',
+              'base-300-light': '#e5e7eb',
+              'base-content-light': '#1f2937',
+              // Dark Mode Colors
+              'brand-primary-dark': '#3b82f6',
+              'brand-secondary-dark': '#60a5fa',
+              'base-100-dark': '#111827',
+              'base-200-dark': '#1f2937',
+              'base-300-dark': '#374151',
+              'base-content-dark': '#d1d5db',
+              // Universal Colors
+              'success': '#10b981',
+              'error': '#ef4444',
+              'warning': '#f59e0b',
             },
             keyframes: {
               'fade-in': {
@@ -33,6 +43,18 @@
         }
       }
     </script>
+    <script>
+      // Prevents color mode flicker
+      (function() {
+        const theme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (theme === 'dark' || (!theme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
   <script type="importmap">
 {
   "imports": {
@@ -46,7 +68,7 @@
 }
 </script>
 </head>
-  <body class="bg-base-100 text-base-content">
+  <body class="bg-base-200-light dark:bg-base-100-dark text-base-content-light dark:text-base-content-dark transition-colors duration-300">
     <div id="root"></div>
     <div id="modal-root"></div>
     <script type="module" src="/index.tsx"></script>

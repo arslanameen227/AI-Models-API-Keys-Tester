@@ -1,101 +1,76 @@
-# AI Toolkit
+# AI Website Framework
 
 [![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-blue?logo=tailwindcss)](https://tailwindcss.com/)
 
-A versatile, configurable, and powerful suite of AI-powered tools designed for developers, content creators, and AI enthusiasts. This application provides a unified interface for various generative AI tasks, all powered by a flexible backend that defaults to **Pollinations AI**.
-
-
+An all-in-one, AI-powered framework for building, managing, and optimizing modern websites. This platform combines a powerful suite of generative AI tools with a full-featured Content Management System (CMS), enabling users to create dynamic pages, write blog posts, manage files, and automate SEO with unprecedented ease. The entire backend is powered by a flexible AI service layer, defaulting to **Pollinations AI**.
 
 ## ✨ Features
 
-The AI Toolkit is a single-page application that includes a collection of powerful, independent tools:
+This framework is a comprehensive solution for web creation and management:
 
-*   **Dashboard**: A welcoming overview of the toolkit and its capabilities.
-*   **API Key Verifier**: Securely test and validate API keys for various AI providers. A successfully validated key is used **for the current session only** to power all other tools.
-*   **Admin Panel**: A password-protected area (`admin`/`password`) to configure the toolkit:
-    *   **Site Settings**: Customize the site title and description.
-    *   **Model Management**: Add, edit, or remove AI providers. Configure validation methods (prefix-based or real API endpoint).
-*   **Prompt Playground**: A simple interface to experiment with text prompts and see raw model output.
-*   **Chat Interface**: A conversational AI with memory for multi-turn dialogues.
-*   **Image Generator**: Create stunning images from text descriptions.
-*   **Text Summarizer**: Condense long articles or documents into key points.
-*   **JSON Generator**: Describe a data structure in plain English and get a valid, formatted JSON object.
-*   **Language Translator**: Translate text between a dozen common languages.
-*   **Code Generator**: Generate code snippets in various programming languages from natural language.
-*   **Content Rewriter**: Paraphrase and rephrase text to get new variations.
-*   **Sentiment Analysis**: Analyze text to determine if its sentiment is positive, negative, or neutral.
-*   **Keyword Extractor**: Pull out the most important keywords from a block of text.
+*   **Full CMS**: A central, password-protected Admin Panel (`admin`/`password`) is the heart of your website.
+*   **AI-Powered Blog Engine**:
+    *   Create, edit, and manage blog posts with a rich text editor.
+    *   **One-Click Content Creation**: Use AI to generate entire articles, catchy titles, or concise summaries.
+    *   A public-facing blog page automatically lists all published articles.
+*   **Dynamic Page Builder**:
+    *   Build and manage custom pages (e.g., "About Us", "Contact").
+    *   Published pages are automatically added to the main site navigation.
+*   **Automatic SEO**:
+    *   Each page and post includes a dedicated SEO panel.
+    *   Use AI to **generate optimized meta titles and descriptions** to boost search engine rankings.
+*   **File Manager**: A central hub to view and manage all your site's media assets.
+*   **Light/Dark Mode**: A sleek theme toggle allows users to choose their preferred viewing experience.
+*   **Extensible AI Tools**: Includes the original suite of standalone tools like the Prompt Playground, Image Generator, Translator, and more.
+*   **Dynamic Navigation**: The sidebar automatically updates to include links to all your newly published pages.
+*   **Modern UI/UX**: A clean, responsive interface enhanced with smooth animations and transitions.
 
 ## 🚀 How It Works
 
+### Integrated Content & AI
+The framework operates on a unified data model managed through React Context. All content—blog posts, pages, files, and settings—is stored and accessed from a central `SettingsContext`, making the application fast and self-contained.
+
+### AI-Assisted Workflow
+Generative AI is deeply integrated into the content creation process. When an admin creates a new blog post or page, they have access to buttons that call the `aiService`. This service sends tailored prompts to the configured AI provider (e.g., Pollinations AI) to generate high-quality text for titles, content, or SEO metadata, which is then populated directly into the CMS fields.
+
 ### Session-Based API Key
-The toolkit is designed with security and convenience in mind. To use the AI tools, a user must first go to the **API Key Verifier** and successfully validate a key for an active provider (e.g., Pollinations AI).
-
-This key is then stored in React Context for the **current browser session only**. It is **never persisted** in `localStorage` or sent to a server for storage, ensuring the user's key remains private. This session key is then used by the `aiService` to make requests for all other tools.
-
-### Extensible Provider System
-The Admin Panel allows administrators to configure which AI providers are available. Each provider can be set up with:
-*   A **mock validation** method (checking an API key prefix).
-*   A **real validation** method (making a live API call to a specific URL).
-
-This makes the toolkit highly adaptable to different AI services beyond the pre-configured examples. The core AI logic in `aiService.ts` is currently wired to a hypothetical **Pollinations AI** API but can be modified to support any provider.
+Security is paramount. To power the AI features, a user must first validate a key in the **API Key Verifier**. This key is stored for the **current session only** and is never persisted, ensuring user privacy.
 
 ## 🛠️ Technology Stack
 
 *   **Frontend**: [React](https://react.dev/) 19 (using hooks and context for state management)
 *   **Language**: [TypeScript](https://www.typescriptlang.org/)
-*   **Styling**: [Tailwind CSS](https://tailwindcss.com/) for a utility-first design system.
+*   **Styling**: [Tailwind CSS](https://tailwindcss.com/) with a custom theme supporting light/dark modes.
 *   **Icons**: [Lucide React](https://lucide.dev/) for a clean and consistent icon set.
 *   **API Communication**: Native `fetch` API.
+*   **State Management**: React Context API for a self-contained, serverless architecture.
 
 ## 📦 Getting Started
 
 This project is a static web application and does not require a build step or a complex server setup.
 
-### Prerequisites
-*   A modern web browser.
-*   A local web server to serve the files (optional, but recommended to avoid CORS issues if you add certain features).
-
 ### Running the Application
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/ai-toolkit.git
-    cd ai-toolkit
-    ```
+1.  **Serve the files:** Use any simple static file server.
+    *   With Node.js: `npx serve .`
+    *   With Python: `python -m http.server`
 
-2.  **Serve the files:**
-    You can use any simple static file server. If you have Node.js installed, you can use `serve`:
-    ```bash
-    # Install serve globally if you don't have it
-    npm install -g serve
+2.  **Open the application:** Navigate to the URL provided by your server (e.g., `http://localhost:3000`).
 
-    # Serve the current directory
-    serve .
-    ```
-    Alternatively, if you have Python installed:
-    ```bash
-    # Python 3
-    python -m http.server
-    ```
-3.  **Open the application:**
-    Navigate to the URL provided by your server (e.g., `http://localhost:3000`) in your web browser.
-
-## 🔧 Extensibility
+## 🔧 Customization & Extensibility
 
 ### Adding a New Tool
-1.  Create your new tool component in the `/pages` directory.
+1.  Create a new tool component in the `/pages` directory.
 2.  Import the component and a [Lucide icon](https://lucide.dev/icons/) into `/data/tools.ts`.
-3.  Add a new `Tool` object to the `tools` array. The application's sidebar and routing will update automatically.
+3.  Add a new `Tool` object to the `tools` array. The sidebar will update automatically.
 
-### Adding a New Provider
+### Configuring AI Providers
 1.  Log in to the **Admin Panel** (default: `admin` / `password`).
-2.  Navigate to **Model Management**.
-3.  Click "Add New Provider" and fill in the details. Use the existing providers as a template.
-4.  If the provider needs custom logic in the `aiService.ts`, you can extend the service accordingly.
+2.  Go to **Model Management** to add, edit, or remove AI providers.
+3.  To change the core AI logic, modify the functions in `services/aiService.ts` to connect to your desired provider's API.
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License.
