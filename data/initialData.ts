@@ -1,0 +1,90 @@
+import { SiteSettings } from '../types';
+
+export const initialSettings: SiteSettings = {
+  siteTitle: 'AI Toolkit',
+  siteDescription: 'A powerful suite of AI tools powered by Pollinations AI and other models.',
+  providers: [
+    {
+      id: 'POLLINATIONS',
+      name: 'Pollinations AI',
+      logo: 'https://i.imgur.com/AFb2k3k.png', // Using a placeholder logo
+      placeholder: 'Enter your Pollinations AI API key',
+      validationUrl: 'https://api.pollinations.ai/v1/user', // Hypothetical endpoint for key validation
+      authHeader: 'Authorization',
+      authScheme: 'Bearer',
+    },
+    {
+      id: 'GEMINI',
+      name: 'Gemini',
+      logo: 'https://seeklogo.com/images/G/google-gemini-logo-2489123164-seeklogo.com.png',
+      placeholder: 'Enter your Google Gemini API key',
+    },
+    {
+      id: 'IMAGEN',
+      name: 'Imagen',
+      logo: 'https://seeklogo.com/images/G/google-cloud-logo-ADE788217F-seeklogo.com.png',
+      placeholder: 'Enter your Google Cloud API key for Imagen',
+    },
+    {
+      id: 'OPENAI',
+      name: 'OpenAI',
+      logo: 'https://seeklogo.com/images/O/openai-logo-82578E321A-seeklogo.com.png',
+      placeholder: 'Enter your OpenAI API key (sk-...)',
+      prefix: 'sk-',
+      validationUrl: 'https://api.openai.com/v1/models',
+      authHeader: 'Authorization',
+      authScheme: 'Bearer',
+    },
+    {
+      id: 'CLAUDE',
+      name: 'Claude (Anthropic)',
+      logo: 'https://seeklogo.com/images/A/anthropic-logo-5B3A17934C-seeklogo.com.png',
+      placeholder: 'Enter your Claude API key (sk-ant-...)',
+      prefix: 'sk-ant-',
+      authHeader: 'x-api-key',
+    },
+    {
+      id: 'GROQ',
+      name: 'Groq',
+      logo: 'https://seeklogo.com/images/G/groq-logo-32D4E56637-seeklogo.com.png',
+      placeholder: 'Enter your Groq API key (gsk_...)',
+      prefix: 'gsk_',
+      authHeader: 'Authorization',
+      authScheme: 'Bearer',
+    },
+    {
+      id: 'COHERE',
+      name: 'Cohere',
+      logo: 'https://seeklogo.com/images/C/cohere-logo-4A1F384D30-seeklogo.com.png',
+      placeholder: 'Enter your Cohere API key',
+      authHeader: 'Authorization',
+      authScheme: 'Bearer',
+    },
+    {
+      id: 'MISTRAL',
+      name: 'Mistral AI',
+      logo: 'https://seeklogo.com/images/M/mistral-ai-logo-55D1F65023-seeklogo.com.png',
+      placeholder: 'Enter your Mistral AI API key',
+      authHeader: 'Authorization',
+      authScheme: 'Bearer',
+    },
+    {
+      id: 'PERPLEXITY',
+      name: 'Perplexity',
+      logo: 'https://seeklogo.com/images/P/perplexity-ai-logo-1314353793-seeklogo.com.png',
+      placeholder: 'Enter your Perplexity API key (pplx-...)',
+      prefix: 'pplx-',
+      authHeader: 'Authorization',
+      authScheme: 'Bearer',
+    },
+    {
+      id: 'HUGGING_FACE',
+      name: 'Hugging Face',
+      logo: 'https://seeklogo.com/images/H/hugging-face-logo-6625F27878-seeklogo.com.png',
+      placeholder: 'Enter your Hugging Face API key (hf_...)',
+      prefix: 'hf_',
+      authHeader: 'Authorization',
+      authScheme: 'Bearer',
+    },
+  ],
+};

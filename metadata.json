@@ -1,0 +1,5 @@
+{
+  "name": "AI API Key Verifier",
+  "description": "A sleek and efficient web application to quickly test and validate API keys for various AI models including Gemini, OpenAI, Claude, and Grok. Enter your key, select the provider, and get instant verification.",
+  "requestFramePermissions": []
+}
